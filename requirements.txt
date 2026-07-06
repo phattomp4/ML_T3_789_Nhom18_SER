@@ -1,0 +1,8 @@
+numpy
+pandas
+matplotlib
+scikit-learn
+librosa
+opencv-python
+torch       # Hoặc tensorflow, tùy framework nhóm chọn
+torchaudio  # Hỗ trợ thêm nếu dùng PyTorch

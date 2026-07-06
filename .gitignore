@@ -1,0 +1,11 @@
+# Bỏ qua thư mục chứa dữ liệu và model đã train
+data/
+models/
+
+# Bỏ qua môi trường ảo
+venv/
+.env
+
+# Bỏ qua các file cache của Python
+__pycache__/
+*.pyc
