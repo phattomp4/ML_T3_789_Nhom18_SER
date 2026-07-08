@@ -70,8 +70,9 @@ def build_ravdess_dataset():
     # 3. TẠO DATAFRAME VÀ ĐÓNG GÓI DỮ LIỆU
     df = pd.DataFrame(features_list)
     
-    # Đặt tên các cột đặc trưng từ Feature_1 đến Feature_80 để dễ quản lý
-    df.columns = [f'feature_{i}' for i in range(1, 81)]
+    # Tự động đặt tên cột theo số lượng chiều thực tế (1 đến 108)
+    num_features = df.shape[1]
+    df.columns = [f'feature_{i}' for i in range(1, num_features + 1)]
     
     # Thêm cột nhãn vào cuối bảng
     df['label'] = labels_list
