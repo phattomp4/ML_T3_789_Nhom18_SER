@@ -74,3 +74,23 @@ os.makedirs('models', exist_ok=True)
 joblib.dump(best_svm_model, 'models/best_svm_emotion_model.pkl')
 joblib.dump(scaler, 'models/scaler_1d.pkl')
 print("Đã lưu mô hình tối ưu và bộ chuẩn hóa vào thư mục 'models/'")
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.metrics import confusion_matrix
+
+# Vẽ Confusion Matrix
+cm = confusion_matrix(y_test, y_pred)
+labels = sorted(list(set(y))) # Lấy danh sách tên cảm xúc
+
+plt.figure(figsize=(10, 8))
+# Dùng thư viện seaborn để vẽ ma trận màu xanh dương (Blues)
+sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=labels, yticklabels=labels)
+plt.title('Ma trận nhầm lẫn - Mô hình SVM (108 chiều)', fontsize=14)
+plt.ylabel('Nhãn thực tế (True Label)', fontsize=12)
+plt.xlabel('Nhãn dự đoán (Predicted Label)', fontsize=12)
+
+# Lưu ảnh ra file png
+plt.tight_layout()
+plt.savefig('confusion_matrix_svm.png', dpi=300)
+print("Đã lưu ảnh ma trận nhầm lẫn thành file 'confusion_matrix_svm.png'")

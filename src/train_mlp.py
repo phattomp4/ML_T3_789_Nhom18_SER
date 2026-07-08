@@ -38,10 +38,10 @@ print("\nĐang khởi tạo và huấn luyện mạng MLP...")
 print("Cấu trúc mạng: 3 lớp ẩn (256, 128, 64 neurons)")
 
 mlp_model = MLPClassifier(
-    hidden_layer_sizes=(256, 128, 64),
+    hidden_layer_sizes=(512, 256, 128), # Tăng từ (256, 128, 64) lên để tăng dung lượng học cho 108 đặc trưng
     activation='relu',                 
     solver='adam',                     
-    alpha=0.001,                       
+    alpha=0.005,                        # Tăng nhẹ alpha để kiểm soát hiện tượng overfitting khi mạng sâu hơn
     batch_size=32,
     learning_rate='adaptive',
     max_iter=500,                      
@@ -70,3 +70,25 @@ os.makedirs('models', exist_ok=True)
 joblib.dump(mlp_model, 'models/mlp_emotion_model.pkl')
 joblib.dump(label_encoder, 'models/label_encoder.pkl')
 print("Đã lưu mô hình MLP và bộ mã hóa nhãn thành công vào thư mục 'models/'")
+
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(10, 6))
+
+# Vẽ đường Loss (hàm mất mát) trên tập Train
+plt.plot(mlp_model.loss_curve_, label='Training Loss (Độ sai lệch)', color='red', linewidth=2)
+
+# Vẽ đường Validation Score (Độ chính xác trên tập kiểm định)
+if hasattr(mlp_model, 'validation_scores_'):
+    plt.plot(mlp_model.validation_scores_, label='Validation Score (Độ chính xác)', color='blue', linewidth=2)
+
+plt.title('Đồ thị hội tụ và cơ chế Dừng sớm (Early Stopping) của MLP', fontsize=14)
+plt.xlabel('Vòng lặp (Epochs)', fontsize=12)
+plt.ylabel('Giá trị', fontsize=12)
+plt.grid(True, linestyle='--', alpha=0.7)
+plt.legend(fontsize=12)
+
+# Lưu ảnh ra file png
+plt.tight_layout()
+plt.savefig('learning_curve_mlp.png', dpi=300)
+print("Đã lưu ảnh đồ thị học thành file 'learning_curve_mlp.png'")
